@@ -14,6 +14,9 @@ export default defineConfig({
       }
     }
   },
+  preview: {
+    allowedHosts: ['cscontrolstock-production.up.railway.app']
+  },
   build: {
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
