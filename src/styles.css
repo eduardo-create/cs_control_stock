@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@source "./index.html";
+@source "./src/**/*.{js,jsx,ts,tsx}";
+
+:root {
+  --bg: #0f172a;
+  --surface: #ffffff;
+  --muted: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --focus-border: #334155;
+  --focus-ring: rgba(51, 65, 85, 0.35);
+  color: var(--text);
+  background-color: var(--bg);
+  font-family: 'Manrope', Arial, sans-serif;
+}
+
+:root.dark {
+  --bg: #0b1220;
+  --surface: #0f172a;
+  --muted: #111827;
+  --text: #e2e8f0;
+  --text-muted: #cbd5e1;
+  --focus-border: #94a3b8;
+  --focus-ring: rgba(148, 163, 184, 0.35);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dark .bg-white { background-color: var(--surface) !important; }
+.dark .bg-slate-50, .dark .bg-slate-100 { background-color: var(--muted) !important; }
+.dark .bg-slate-200 { background-color: #1f2937 !important; }
+.dark .text-slate-900, .dark .text-slate-800, .dark .text-slate-700 { color: var(--text) !important; }
+.dark .text-slate-600, .dark .text-slate-500 { color: var(--text-muted) !important; }
+.dark .border-slate-200 { border-color: #1f2937 !important; }
+.dark .border-slate-100 { border-color: #111827 !important; }
+.dark .shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.45) !important; }
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--focus-border) !important;
+  box-shadow: 0 0 0 3px var(--focus-ring) !important;
+}
+
+button.border-slate-200.bg-white,
+a.border-slate-200.bg-white {
+  background-color: var(--surface) !important;
+  border-color: #e2e8f0 !important;
+  color: var(--text) !important;
+}
+
+button.border-slate-200.bg-white:hover,
+a.border-slate-200.bg-white:hover {
+  background-color: var(--muted) !important;
+}
+
+button.border-red-200.bg-red-50,
+a.border-red-200.bg-red-50,
+button.border-rose-200.bg-rose-50,
+a.border-rose-200.bg-rose-50,
+button.border-amber-200.bg-amber-50,
+a.border-amber-200.bg-amber-50 {
+  background-color: var(--muted) !important;
+  color: var(--text) !important;
+  border-color: #e2e8f0 !important;
+}
+
+button.border-red-200.bg-red-50:hover,
+a.border-red-200.bg-red-50:hover,
+button.border-rose-200.bg-rose-50:hover,
+a.border-rose-200.bg-rose-50:hover,
+button.border-amber-200.bg-amber-50:hover,
+a.border-amber-200.bg-amber-50:hover {
+  background-color: #e2e8f0 !important;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f8fafc 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
