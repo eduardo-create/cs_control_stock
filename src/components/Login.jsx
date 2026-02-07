@@ -13,7 +13,7 @@ export default function Login() {
     setLoading(true);
     setError(null);
     try {
-      const r = await fetch('/api/auth/login', {
+      const r = await fetch(`${import.meta.env.VITE_API_BASE}/api/auth/login`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
