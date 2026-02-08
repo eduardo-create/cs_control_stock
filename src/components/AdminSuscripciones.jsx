@@ -58,16 +58,13 @@ export default function AdminSuscripciones() {
         authFetch('/api/admin/invoices/pending')
       ]);
       // Extract array from API response if wrapped in an object
-      const negociosArr = Array.isArray(negociosData) ? negociosData : Array.isArray(negociosData[0]) ? negociosData[0] : Object.values(negociosData).filter(v => typeof v === 'object' && v.id);
-      const pendingArr = Array.isArray(invoicesData) ? invoicesData : Array.isArray(invoicesData[0]) ? invoicesData[0] : Object.values(invoicesData).filter(v => typeof v === 'object' && v.id);
+      const negociosArr = Array.isArray(negociosData) ? negociosData : Object.values(negociosData).filter(v => typeof v === 'object' && v.id);
+      const planesArr = Array.isArray(planesData) ? planesData : Object.values(planesData).filter(v => typeof v === 'object' && v.id);
+      const pendingArr = Array.isArray(invoicesData) ? invoicesData : Object.values(invoicesData).filter(v => typeof v === 'object' && v.id);
       setSubs(Array.isArray(subsData) ? subsData : []);
-      setPlanes(Array.isArray(planesData) ? planesData : []);
+      setPlanes(planesArr);
       setNegocios(negociosArr);
       setPendingInvoices(pendingArr);
-      console.log('Negocios cargados:', negociosArr); //luego de depurar, eliminar
-      console.log('Facturas pendientes cargadas:', pendingArr);//luego de depurar, eliminar
-      console.log('Negocios cargados:', negociosData);//luego de depurar, eliminar
-      console.log('Facturas pendientes cargadas:', invoicesData);//luego de depurar, eliminar
     } catch (err) {
       setError(err.message || 'No se pudieron cargar suscripciones');
     } finally {
@@ -170,12 +167,6 @@ export default function AdminSuscripciones() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-5 text-slate-900">
-      {/* Debug info for negocios and pendingInvoices */}
-      <pre style={{background:'#f8fafc',color:'#334155',fontSize:12,padding:8,marginBottom:8}}>
-        Negocios: {JSON.stringify(negocios)}
-        {"\n"}
-        PendingInvoices: {JSON.stringify(pendingInvoices)}
-      </pre>
       <div className="rounded-2xl border border-slate-200 bg-white shadow p-5 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-tight text-slate-500 font-semibold">SaaS</p>
