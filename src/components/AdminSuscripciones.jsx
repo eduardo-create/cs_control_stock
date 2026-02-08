@@ -360,14 +360,14 @@ export default function AdminSuscripciones() {
                 <label className="text-sm font-semibold text-slate-700 space-y-1">
                   <span>Negocio</span>
                   <select
-                    value={form.negocio_id}
+                    value={String(form.negocio_id)}
                     onChange={e => setForm(f => ({ ...f, negocio_id: e.target.value }))}
                     required
                     className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30"
                   >
                     <option value="">Selecciona</option>
                     {negocios.map(n => (
-                      <option key={n.id} value={n.id}>{n.nombre || `Negocio ${n.id}`}</option>
+                      <option key={n.id} value={String(n.id)}>{n.nombre || `Negocio ${n.id}`}</option>
                     ))}
                   </select>
                 </label>
