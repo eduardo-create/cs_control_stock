@@ -24,13 +24,16 @@ export default function AdminUsers() {
   const [confirmUser, setConfirmUser] = useState(null);
   const isAdminRole = user?.rol === 'admin';
 
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
+
   async function fetchUsuarios() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/usuarios', {
-        credentials: 'include',
-        headers: { Authorization: `Bearer ${token}` }
+      const res = await fetch(`${API_BASE}/api/usuarios`, {
+        method: 'GET',
+        headers: { Authorization: token ? `Bearer ${token}` : undefined },
+        credentials: 'include'
       });
       if (!res.ok) throw new Error('Error al obtener usuarios');
       const data = await res.json();
@@ -44,12 +47,13 @@ export default function AdminUsers() {
 
   async function fetchRoles() {
     try {
-      const res = await fetch('/api/roles', {
-        credentials: 'include',
-        headers: { Authorization: `Bearer ${token}` }
+      const resRoles = await fetch(`${API_BASE}/api/roles`, {
+        method: 'GET',
+        headers: { Authorization: token ? `Bearer ${token}` : undefined },
+        credentials: 'include'
       });
-      if (!res.ok) throw new Error('Error al obtener roles');
-      const data = await res.json();
+      if (!resRoles.ok) throw new Error('Error al obtener roles');
+      const data = await resRoles.json();
       setRoles(Array.isArray(data) ? data : []);
     } catch (err) {
       setRoles([]);
@@ -69,14 +73,11 @@ export default function AdminUsers() {
   }
 
   async function saveEdit(id) {
-    await fetch(`/api/usuarios/${id}`, {
+    await fetch(`${API_BASE}/api/usuarios/${id}`, {
       method: 'PUT',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(editData)
+      headers: { 'Content-Type': 'application/json', Authorization: token ? `Bearer ${token}` : undefined },
+      body: JSON.stringify(editData),
+      credentials: 'include'
     });
     setEditId(null);
     fetchUsuarios();
@@ -219,14 +220,11 @@ export default function AdminUsers() {
                       onClick={async () => {
                         const nueva = prompt('Nueva contraseña para ' + u.nombre + ':');
                         if (!nueva || nueva.length < 6) return alert('La contraseña debe tener al menos 6 caracteres');
-                        await fetch(`/api/usuarios/${u.id}/password`, {
-                          method: 'PUT',
-                          credentials: 'include',
-                          headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${token}`
-                          },
-                          body: JSON.stringify({ password: nueva })
+                        await fetch(`${API_BASE}/api/usuarios/${u.id}/password`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json', Authorization: token ? `Bearer ${token}` : undefined },
+                          body: JSON.stringify({ password: nueva }),
+                          credentials: 'include'
                         });
                         alert('Contraseña actualizada');
                       }}
@@ -286,14 +284,10 @@ export default function AdminUsers() {
               <button
                 className="rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-100"
                 onClick={async () => {
-                  await fetch(`/api/usuarios/${confirmUser.id}`, {
-                    method: 'PUT',
-                    credentials: 'include',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ activo: false })
+                  await fetch(`${API_BASE}/api/usuarios/${confirmUser.id}`, {
+                    method: 'DELETE',
+                    headers: { Authorization: token ? `Bearer ${token}` : undefined },
+                    credentials: 'include'
                   });
                   setConfirmUser(null);
                   fetchUsuarios();

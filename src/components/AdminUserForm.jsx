@@ -34,7 +34,8 @@ export default function AdminUserForm({ onCreated, roles = [] }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/negocios/usuarios-operativos', {
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
+      const res = await fetch(`${API_BASE}/api/negocios/usuarios-operativos`, {
         method: 'POST',
         credentials: 'include',
         headers: {
