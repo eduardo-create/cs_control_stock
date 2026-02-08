@@ -8,15 +8,16 @@ export default function Onboarding() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [onboardingPublic, setOnboardingPublic] = useState(false);
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
 
   useEffect(() => {
-    fetch('/api/negocios')
+    fetch(API_BASE + '/api/negocios')
       .then(res => {
         if (res.status === 403) setOnboardingPublic(true);
         else setOnboardingPublic(false);
       })
       .catch(() => setOnboardingPublic(true));
-  }, []);
+  }, [API_BASE]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function Onboarding() {
     setSuccess(false);
     try {
       // 1. Crear negocio
-      const negocioRes = await fetch('/api/negocios', {
+      const negocioRes = await fetch(API_BASE + '/api/negocios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nombre })
@@ -33,7 +34,7 @@ export default function Onboarding() {
       if (!negocioRes.ok) throw new Error('Error creando negocio');
       const negocio = await negocioRes.json();
       // 2. Asignar admin
-      const adminRes = await fetch('/api/negocios/asignar-admin', {
+      const adminRes = await fetch(API_BASE + '/api/negocios/asignar-admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ negocio_id: negocio.negocio.id, email, password })

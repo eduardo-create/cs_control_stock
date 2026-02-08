@@ -55,6 +55,8 @@ export default function SuperadminPanel() {
   }, [negocios]);
 
   async function authFetch(url, options = {}) {
+    const API_BASE = import.meta.env.VITE_API_BASE || '';
+    if (url.startsWith('/api/')) url = API_BASE + url;
     const headers = { ...(options.headers || {}), Authorization: 'Bearer ' + token };
     if (options.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
     const res = await fetch(url, { ...options, headers });

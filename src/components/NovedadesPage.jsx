@@ -15,7 +15,9 @@ export default function NovedadesPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/admin/changelog', {
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
+      const url = API_BASE + '/api/admin/changelog';
+      const res = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`
         }

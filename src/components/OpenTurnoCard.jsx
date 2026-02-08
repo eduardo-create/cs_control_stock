@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function authFetch(path, opts = {}, token) {
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
+  if (path.startsWith('/api/')) path = API_BASE + path;
   const headers = Object.assign({}, opts.headers || {});
   if (token) headers['Authorization'] = `Bearer ${token}`;
   return fetch(path, Object.assign({}, opts, { headers, credentials: 'include' }));
