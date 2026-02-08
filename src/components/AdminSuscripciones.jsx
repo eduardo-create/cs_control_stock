@@ -57,12 +57,17 @@ export default function AdminSuscripciones() {
         authFetch('/api/negocios'),
         authFetch('/api/admin/invoices/pending')
       ]);
+      // Extract array from API response if wrapped in an object
+      const negociosArr = Array.isArray(negociosData) ? negociosData : Array.isArray(negociosData[0]) ? negociosData[0] : Object.values(negociosData).filter(v => typeof v === 'object' && v.id);
+      const pendingArr = Array.isArray(invoicesData) ? invoicesData : Array.isArray(invoicesData[0]) ? invoicesData[0] : Object.values(invoicesData).filter(v => typeof v === 'object' && v.id);
       setSubs(Array.isArray(subsData) ? subsData : []);
       setPlanes(Array.isArray(planesData) ? planesData : []);
-      setNegocios(Array.isArray(negociosData) ? negociosData : []);
-      setPendingInvoices(Array.isArray(invoicesData) ? invoicesData : []);
-      console.log('Negocios cargados:', negociosData);
-      console.log('Facturas pendientes cargadas:', invoicesData);
+      setNegocios(negociosArr);
+      setPendingInvoices(pendingArr);
+      console.log('Negocios cargados:', negociosArr); //luego de depurar, eliminar
+      console.log('Facturas pendientes cargadas:', pendingArr);//luego de depurar, eliminar
+      console.log('Negocios cargados:', negociosData);//luego de depurar, eliminar
+      console.log('Facturas pendientes cargadas:', invoicesData);//luego de depurar, eliminar
     } catch (err) {
       setError(err.message || 'No se pudieron cargar suscripciones');
     } finally {
