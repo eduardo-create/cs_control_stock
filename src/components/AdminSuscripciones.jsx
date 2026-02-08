@@ -62,6 +62,7 @@ export default function AdminSuscripciones() {
       setNegocios(Array.isArray(negociosData) ? negociosData : []);
       setPendingInvoices(Array.isArray(invoicesData) ? invoicesData : []);
       console.log('Negocios cargados:', negociosData);
+      console.log('Facturas pendientes cargadas:', invoicesData);
     } catch (err) {
       setError(err.message || 'No se pudieron cargar suscripciones');
     } finally {
@@ -164,6 +165,12 @@ export default function AdminSuscripciones() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-5 text-slate-900">
+      {/* Debug info for negocios and pendingInvoices */}
+      <pre style={{background:'#f8fafc',color:'#334155',fontSize:12,padding:8,marginBottom:8}}>
+        Negocios: {JSON.stringify(negocios)}
+        {"\n"}
+        PendingInvoices: {JSON.stringify(pendingInvoices)}
+      </pre>
       <div className="rounded-2xl border border-slate-200 bg-white shadow p-5 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-tight text-slate-500 font-semibold">SaaS</p>
