@@ -61,6 +61,7 @@ export default function AdminSuscripciones() {
       setPlanes(Array.isArray(planesData) ? planesData : []);
       setNegocios(Array.isArray(negociosData) ? negociosData : []);
       setPendingInvoices(Array.isArray(invoicesData) ? invoicesData : []);
+      console.log('Negocios cargados:', negociosData);
     } catch (err) {
       setError(err.message || 'No se pudieron cargar suscripciones');
     } finally {
