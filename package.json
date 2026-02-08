@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "cross-env PORT=$PORT vite preview --host --port $PORT"
+    "start": "vite preview --host 0.0.0.0 --port $PORT"
   },
   "dependencies": {
     "@tailwindplus/elements": "^1.0.22",
