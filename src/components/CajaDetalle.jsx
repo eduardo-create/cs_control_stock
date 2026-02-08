@@ -6,14 +6,11 @@ import { useAuth } from '../context/AuthContext';
 import Skeleton from './Skeleton';
 
 function authFetch(path, opts = {}, token) {
-  return fetch(path, {
-    ...opts,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(opts.headers || {}),
-      Authorization: token ? `Bearer ${token}` : undefined,
-    },
-  });
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
+  if (path.startsWith('/api/')) path = API_BASE + path;
+  const headers = { ...(opts.headers || {}), Authorization: token ? `Bearer ${token}` : undefined };
+  if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+  return fetch(path, { ...opts, headers, credentials: 'include' });
 }
 
 function formatDateTime(value) {

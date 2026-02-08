@@ -3,8 +3,10 @@ import { toast } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 function authFetch(path, opts = {}, token) {
-  const headers = Object.assign({}, opts.headers || {});
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
+  if (path.startsWith('/api/')) path = API_BASE + path;
+  const headers = { ...(opts.headers || {}), Authorization: token ? `Bearer ${token}` : undefined };
+  if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
   return fetch(path, Object.assign({}, opts, { headers, credentials: 'include' }));
 }
 

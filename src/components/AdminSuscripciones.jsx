@@ -33,15 +33,17 @@ export default function AdminSuscripciones() {
   const [confirmingInvoice, setConfirmingInvoice] = useState(false);
 
   async function authFetch(url, options = {}) {
+    const API_BASE = import.meta.env.VITE_API_BASE || '';
+    if (url.startsWith('/api/')) url = API_BASE + url;
+    const token = localStorage.getItem('token');
     const headers = { ...(options.headers || {}), Authorization: token ? `Bearer ${token}` : undefined };
     if (options.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
-    const res = await fetch(url, { ...options, headers });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      const message = data.message || data.error || 'Error de red';
-      throw new Error(message);
-    }
-    return data;
+    return fetch(url, { ...options, headers, credentials: 'include' })
+      .then(res => res.json().then(data => ({ ok: res.ok, status: res.status, ...data })))
+      .then(data => {
+        if (!data.ok) throw new Error(data.message || data.error || 'Error de red');
+        return data;
+      });
   }
 
   async function load() {

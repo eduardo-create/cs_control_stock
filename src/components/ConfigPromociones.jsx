@@ -27,8 +27,10 @@ const LIMITE_OPTS = [
 ];
 
 function authFetch(url, opts = {}, token) {
-  const headers = { ...(opts.headers || {}) };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
+  if (url.startsWith('/api/')) url = API_BASE + url;
+  const headers = { ...(opts.headers || {}), Authorization: token ? `Bearer ${token}` : undefined };
+  if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
   return fetch(url, { ...opts, headers, credentials: 'include' });
 }
 
